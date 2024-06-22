@@ -1,31 +1,63 @@
-import React from 'react'
+import { useState, useEffect} from 'react'
 import Search from './components/Search'
 
+
 const App = () => {
+  const [weather, setWeather] = useState([]);
+  const [location, setLocation] = useState("");
+
+  const getLocation = async () => {
+    if (!location) {
+      return; // Exit early if location is empty
+    }
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=4d0f9f3753667c12eae30730f450e6a5`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setWeather(data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+      // Handle error state (e.g., show error message to user)
+    }
+  };
+  
+
+  useEffect(()=>{
+    getLocation("nigeria");
+  }, [location]);
+
+ 
   return (
     <div className='app'>
-      <Search />
+        <Search  location ={location} setLocation={setLocation} getLocation={getLocation} />
       <div className='container'>
         <div className="top">
           <div className="location">
-            <p>Dallas</p>
+            <p>{weather.name}</p>
           </div>
           <div className="temp">
-            <h1>60ºF</h1>
+            {weather.main ? <h1>{weather.main.temp}ºF</h1> : null}
           </div>
           <div className="description">
-            <p>cloud</p>
+            {weather.weather ? <p>{weather.weather[0].main}</p> : null}
+            
           </div>
         </div>
         <div className="bottom">
           <div className="feels">
-            <p>65ºF</p>
+            {weather.main ? <p>{weather.main.feels_like}ºF</p> : null}
+            <p>Feels Like</p>
           </div>
           <div className="humidity">
-            <p>20º</p>
+            {weather.main ? <p>{weather.main.humidity}%</p> : null}
+            <p>Humidity</p>
           </div>
           <div className="wind">
-            12MPH
+            {weather.wind ? <p>{weather.wind.speed}MPH</p> : null}
+            <p>Wind Speed</p>
           </div>
         </div>
       </div>
