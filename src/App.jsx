@@ -39,7 +39,7 @@ const App = () => {
             <p>{weather.name}</p>
           </div>
           <div className="temp">
-            {weather.main ? <h1>{weather.main.temp}ºF</h1> : null}
+            {weather.main ? <h1>{weather.main.temp.toFixed()}ºF</h1> : null}
           </div>
           <div className="description">
             {weather.weather ? <p>{weather.weather[0].main}</p> : null}
@@ -48,15 +48,15 @@ const App = () => {
         </div>
         <div className="bottom">
           <div className="feels">
-            {weather.main ? <p>{weather.main.feels_like}ºF</p> : null}
+            {weather.main ? <p>{weather.main.feels_like.toFixed()}ºF</p> : null}
             <p>Feels Like</p>
           </div>
           <div className="humidity">
-            {weather.main ? <p>{weather.main.humidity}%</p> : null}
+            {weather.main ? <p>{weather.main.humidity.toFixed()}%</p> : null}
             <p>Humidity</p>
           </div>
           <div className="wind">
-            {weather.wind ? <p>{weather.wind.speed}MPH</p> : null}
+            {weather.wind ? <p>{weather.wind.speed.toFixed()}MPH</p> : null}
             <p>Wind Speed</p>
           </div>
         </div>
